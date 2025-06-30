@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ hotel_name }} - Rooms</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="results-body">
+    <div class="results-container">
+        <h2>{{ hotel_name }} - Available Rooms</h2>
+        <p>{{ city }} | {{ checkin }} to {{ checkout }} | Guests: {{ guests }}</p>
+
+        <div class="hotel-grid">
+            {% for room in rooms %}
+            <div class="hotel-card">
+                <img src="{{ room.image }}" alt="{{ room.type }}">
+                <div class="hotel-info">
+                    <h3>{{ room.type }}</h3>
+                    <p>Beds: {{ room.beds }}</p>
+                    <p>Price: ₹{{ room.price }}/night</p>
+                    <p>Amenities:</p>
+                    <ul>
+                        {% for item in room.amenities %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    <form action="/payment" method="post">
+                        <input type="hidden" name="hotel_name" value="{{ hotel_name }}">
+                        <input type="hidden" name="room_type" value="{{ room.type }}">
+                        <input type="hidden" name="city" value="{{ city }}">
+                        <input type="hidden" name="checkin" value="{{ checkin }}">
+                        <input type="hidden" name="checkout" value="{{ checkout }}">
+                        <input type="hidden" name="guests" value="{{ guests }}">
+                        <input type="hidden" name="room_price" value="{{ room.price }}">
+                        <button type="submit">Book Now</button>
+                    </form>
+                    
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

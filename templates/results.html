@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotels in {{ city }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="results-body">
+    <div class="results-container">
+        <h2>Available Hotels in {{ city }}</h2>
+        <p>From {{ checkin }} to {{ checkout }} | Guests: {{ guests }}</p>
+
+        <div class="hotel-grid">
+            {% for hotel in hotels %}
+            <div class="hotel-card">
+                <img src="{{ hotel.image }}" alt="{{ hotel.name }}">
+
+                <div class="hotel-info">
+                    <h3>{{ hotel.name }}</h3>
+                    <p>⭐ {{ hotel.rating }} | ₹{{ hotel.price }}/night</p>
+                    <p>{{ hotel.location }}</p>
+                    <form action="/book" method="post">
+                        <input type="hidden" name="hotel_name" value="{{ hotel.name }}">
+                        <input type="hidden" name="price" value="{{ hotel.price }}">
+                        <input type="hidden" name="city" value="{{ hotel.location }}">
+                        <input type="hidden" name="checkin" value="{{ checkin }}">
+                        <input type="hidden" name="checkout" value="{{ checkout }}">
+                        <input type="hidden" name="guests" value="{{ guests }}">
+                        <button type="submit">View Rooms</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
